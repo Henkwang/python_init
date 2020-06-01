@@ -1,0 +1,20 @@
+# Packages #
+############
+# it's better to unpack these files and commit the raw source
+# git has its own built in compression methods
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.zip
+.idea
+*.log
+
+__pycache__
+/.idea
+*.vscode
+.DS_Store
+*.code-workspace
+venv
