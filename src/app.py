@@ -11,19 +11,20 @@ from configs import base_config as pyConfig
 
 def create_app(dict_config: dict = None, *, pyfile=None) -> bool:
 
-    create_directory()
-
-    setLogingConfig()
-
     update_more_pyConfig(pyfile)
 
     update_config_enverlopment()
 
     update_config_dict(dict_config)
 
-    printConfigs()
+    create_directory()
+
+    set_loging_from_config()
+
+    print_configs()
 
     #todo run service
+    logging.info('Running...')
 
     return True
 
@@ -46,18 +47,21 @@ def set_loging_from_config():
     if  check_attr and check_log_file_config_is_exist:
         if pyConfig.LOG_FILECONFIG_EXT.lower() in ['yml', 'yaml']:
             with open(pyConfig.LOG_FILECONFIG, 'r') as f:
-                log_cfg = yaml.safe_load(f.read())
-            logging.config.dictConfig(log_cfg)
+                fr = f.read()
+                fr = fr.format(LOG_FILENAME=pyConfig.LOG_FILENAME)
+                log_cfg = yaml.safe_load(fr)
+                # print(log_cfg)
+                logging.config.dictConfig(log_cfg)
         elif pyConfig.LOG_FILECONFIG_EXT.lower() in ['ini']:
             logging.config.fileConfig(pyConfig.LOG_FILECONFIG)
         else:
             raise Exception("python logfile config not support.")
-    if check_log_file_config_is_exist:
+    if not check_log_file_config_is_exist:
         raise FileNotFoundError('file config log error: %s', pyConfig.LOG_FILECONFIG)
 
 
 def update_more_pyConfig(more_pyConfig = None):
-    if more_pyConfig and len(more_pyConfig) > 0:
+    if more_pyConfig:
         list_more_configs = [item for item in dir(more_pyConfig) if item.isupper() and not item.startswith("__")]
         for name_config in list_more_configs: 
             if hasattr(pyConfig, name_config):
@@ -107,6 +111,7 @@ def print_configs():
     list_name_configs = [item for item in dir(pyConfig) if item.isupper() and not item.startswith("__")]
     for name_config in list_name_configs:
         logging.debug('Config => %s: %s', name_config, getattr(pyConfig, name_config))
+        # print('Config => %s: %s' % ( name_config, getattr(pyConfig, name_config)))
 
 
 def run_testing():

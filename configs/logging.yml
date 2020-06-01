@@ -1,12 +1,13 @@
+version: 1
 formatters:
-  defautl:
+  default:
     format: "[%(asctime)s][%(levelname)s][%(name)s][%(module)s][%(lineno)d] %(message)s"
   file_format:
     format: "[%(asctime)s][%(levelname)s][%(name)s][%(module)s]] %(message)s"
 handlers:
   console:
     class : logging.StreamHandler
-    formatter: brief
+    formatter: default
     level   : NOTSET
     stream  : ext://sys.stdout
   file_handler:
@@ -17,11 +18,11 @@ handlers:
     when: "D"
 loggers:
   dev:
-    handlers: [console, file_handler]
+    handlers: [console]
   test:
     handlers: [file_handler]
   product:
     handlers: [console, file_handler]
-    level: INFO
 root:
   handlers: [console]
+  level: NOTSET

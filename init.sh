@@ -37,9 +37,9 @@ fi
 
 if [ ! -f ./configs/config.py ] 
 then
-    touch configs/config.py
+    echo "" > configs/config.py
 fi
 
-python3 -m pip install yaml
+python3 -m pip install pyyaml
 
 echo "Init end."
