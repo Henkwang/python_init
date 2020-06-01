@@ -1,0 +1,27 @@
+formatters:
+  defautl:
+    format: "[%(asctime)s][%(levelname)s][%(name)s][%(module)s][%(lineno)d] %(message)s"
+  file_format:
+    format: "[%(asctime)s][%(levelname)s][%(name)s][%(module)s]] %(message)s"
+handlers:
+  console:
+    class : logging.StreamHandler
+    formatter: brief
+    level   : NOTSET
+    stream  : ext://sys.stdout
+  file_handler:
+    class : logging.handlers.TimedRotatingFileHandler
+    formatter: file_format
+    level   : INFO
+    filename: "{LOG_FILENAME}"
+    when: "D"
+loggers:
+  dev:
+    handlers: [console, file_handler]
+  test:
+    handlers: [file_handler]
+  product:
+    handlers: [console, file_handler]
+    level: INFO
+root:
+  handlers: [console]

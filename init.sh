@@ -35,4 +35,11 @@ else
     echo "No file requirements.txt"
 fi
 
+if [ ! -f ./configs/config.py ] 
+then
+    touch configs/config.py
+fi
+
+python3 -m pip install yaml
+
 echo "Init end."
